@@ -10,7 +10,6 @@ export default defineConfig({
                 'app/Http/Livewire/**',
                 'app/Tables/Columns/**',
             ],
-            refresh: true,
         }),
     ],
 });
