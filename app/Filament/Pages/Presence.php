@@ -41,4 +41,9 @@ class Presence extends Page
                 ]),
         ];
     }
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return Auth::user()->role === 'anggota';
+    }
 }
