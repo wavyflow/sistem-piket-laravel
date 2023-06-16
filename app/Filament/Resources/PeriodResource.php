@@ -28,9 +28,9 @@ class PeriodResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('start_date')
+                Forms\Components\DatePicker::make('start')
                     ->required(),
-                Forms\Components\DatePicker::make('end_date')
+                Forms\Components\DatePicker::make('end')
                     ->required(),
             ]);
     }
@@ -40,14 +40,10 @@ class PeriodResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('start_date')
+                Tables\Columns\TextColumn::make('start')
                     ->date(),
-                Tables\Columns\TextColumn::make('end_date')
+                Tables\Columns\TextColumn::make('end')
                     ->date(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime(),
             ])
             ->filters([
                 //

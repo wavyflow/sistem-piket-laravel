@@ -31,22 +31,23 @@ class ScheduleResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('user_id')
-                    ->relationship('user', 'fullname', function (Builder $query) {
-                        return $query->where('role', 'anggota');
-                    })
-                    ->label('Anggota')
-                    ->required()
-                    ->disabled(function () {
-                        return auth()->user()->role === 'pimpinan';
-                    }),
-                Select::make('period_id')
-                    ->relationship('period', 'name')
-                    ->label('Periode')
-                    ->required()
-                    ->disabled(function () {
-                        return auth()->user()->role === 'pimpinan';
-                    }),
+                Select::make('squad_id')->label('Regu')->relationship('squad', 'name')->required(),
+                Select::make('period_id')->label('Periode')->relationship('period', 'name')->required(),
+                Select::make('week')->label('Minggu ke')->options([
+                    1 => 'Minggu ke-1',
+                    2 => 'Minggu ke-2',
+                    3 => 'Minggu ke-3',
+                    4 => 'Minggu ke-4',
+                ])->required(),
+                Select::make('day')->label('Hari')->options([
+                    1 => 'Senin',
+                    2 => 'Selasa',
+                    3 => 'Rabu',
+                    4 => 'Kamis',
+                    5 => 'Jumat',
+                    6 => 'Sabtu',
+                    7 => 'Minggu',
+                ])->required(),
                 Toggle::make('is_accepted')
                     ->label('Status')
                     ->inline()
@@ -60,8 +61,18 @@ class ScheduleResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.fullname')->label('Nama Anggota'),
-                TextColumn::make('period.date')->label('Periode')->alignCenter(),
+                TextColumn::make('squad.name')->label('Nama Regu'),
+                TextColumn::make('period.name')->label('Periode')->alignCenter(),
+                BadgeColumn::make('week')->label('Minggu ke')->color('primary')->alignCenter(),
+                BadgeColumn::make('day')->label('Hari ke')->color('primary')->enum([
+                    1 => 'Senin',
+                    2 => 'Selasa',
+                    3 => 'Rabu',
+                    4 => 'Kamis',
+                    5 => 'Jumat',
+                    6 => 'Sabtu',
+                    7 => 'Minggu',
+                ])->alignCenter(),
                 BadgeColumn::make('is_accepted')->color(function ($state) {
                     if ($state) {
                         return 'success';

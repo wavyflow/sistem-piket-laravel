@@ -6,11 +6,13 @@ use App\Filament\Resources\MemberResource\Pages;
 use App\Filament\Resources\MemberResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,6 +34,7 @@ class MemberResource extends Resource
                 TextInput::make('rank')->label('Pangkat')->required(),
                 TextInput::make('position')->label('Jabatan')->required(),
                 TextInput::make('password')->password()->hiddenOn('edit')->visibleOn('create')->required()->autocomplete('new-password'),
+                Select::make('squad')->relationship('squad', 'name')->label('Regu'),
             ]);
     }
 
@@ -42,7 +45,8 @@ class MemberResource extends Resource
                 TextColumn::make('fullname')->label('Nama'),
                 TextColumn::make('email')->label('Email'),
                 TextColumn::make('rank')->label('Pangkat'),
-                TextColumn::make('position')->label('Jabatan')
+                TextColumn::make('position')->label('Jabatan'),
+                TextColumn::make('squad.name')->label('Regu'),
             ])
             ->filters([
                 //
