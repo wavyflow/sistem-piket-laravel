@@ -17,8 +17,8 @@ class Period extends Model
      */
     protected $fillable = [
         'name',
-        'start_date',
-        'end_date',
+        'start',
+        'end',
     ];
 
     /**
@@ -27,8 +27,8 @@ class Period extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'start_date' => 'date',
-        'end_date'   => 'date'
+        'start' => 'date',
+        'end'   => 'date'
     ];
 
     /**
@@ -37,7 +37,7 @@ class Period extends Model
     protected function date(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => $attributes['start_date'] . ' - ' . $attributes['end_date']
+            get: fn (mixed $value, array $attributes) => $attributes['start'] . ' - ' . $attributes['end']
         );
     }
 }

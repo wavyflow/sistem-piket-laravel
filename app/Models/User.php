@@ -57,4 +57,9 @@ class User extends Authenticatable implements FilamentUser, HasName
     {
         return $this->fullname ?? '';
     }
+
+    public function squad()
+    {
+        return $this->belongsTo(Squad::class);
+    }
 }

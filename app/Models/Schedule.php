@@ -15,9 +15,11 @@ class Schedule extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
+        'squad_id',
         'period_id',
-        'is_accepted'
+        'is_accepted',
+        'week',
+        'day',
     ];
 
     /**
@@ -29,13 +31,11 @@ class Schedule extends Model
         'is_accepted' => 'boolean',
     ];
 
-
-    function user() {
-        return $this->belongsTo(User::class);
-    }
-
     function period() {
         return $this->belongsTo(Period::class);
     }
 
+    function squad() {
+        return $this->belongsTo(Squad::class);
+    }
 }
