@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('squad_id')->constrained();
             $table->foreignId('period_id')->constrained();
+            $table->tinyInteger('week');
+            $table->tinyInteger('day');
             $table->boolean('is_accepted')->default(false);
             $table->timestamps();
         });

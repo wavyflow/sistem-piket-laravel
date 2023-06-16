@@ -14,6 +14,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // $anggota = [
+            // 'KUSMANTO', 'MUHAMMAD LUTFI N. ,S.H.', 'ERLANGGA SETYANA PUTRA', 'DENDI AGUSTIANTO', 'SUPARNO', 'GUNARDI BAGAS WAHYU PRASETYO', 'MAHARDHIQA QAHAR MUZAKKA',
+            // 'KARTONO', 'PRASTAWA SUCI PAMILIH', 'DWIKA MAULANA AL BASYR', 'MUHAMMAD ABDUL BASHIR '
+        // ];
         $users = [[
             'fullname'   => 'Admin',
             'email'      => 'admin@mail.com',

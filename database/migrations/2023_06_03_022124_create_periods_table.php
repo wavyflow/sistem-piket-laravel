@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('periods', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('Nama Periode');
-            $table->date('start_date')->comment('Tanggal Mulai');
-            $table->date('end_date')->comment('Tanggal Berakhir');
+            $table->time('start')->comment('Waktu Mulai');
+            $table->time('end')->comment('Waktu Berakhir');
             $table->timestamps();
         });
     }
