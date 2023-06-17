@@ -27,8 +27,8 @@ class Period extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'start' => 'date',
-        'end'   => 'date'
+        'start' => 'datetime:H:i:s',
+        'end'   => 'datetime:H:i:s'
     ];
 
     /**
