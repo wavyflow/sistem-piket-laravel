@@ -23,7 +23,7 @@ class RosterCalendar extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            // CalendarWidget::class
+            CalendarWidget::class
         ];
     }
 

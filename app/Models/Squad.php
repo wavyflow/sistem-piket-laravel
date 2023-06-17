@@ -12,4 +12,8 @@ class Squad extends Model
     function schedules() {
         return $this->hasMany(Schedule::class);
     }
+
+    function members() {
+        return $this->hasMany(User::class);
+    }
 }

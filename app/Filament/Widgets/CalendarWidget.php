@@ -4,6 +4,9 @@ namespace App\Filament\Widgets;
 
 use App\Models\Period;
 use App\Models\Schedule;
+use App\Models\Squad;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
@@ -15,29 +18,65 @@ class CalendarWidget extends FullCalendarWidget
      */
     public function getViewData(): array
     {
-        if (Auth::user()->role === 'admin') {
-            return Period::get()->map(function($jadwal){
-                return [
-                    'id' => $jadwal->id,
-                    'title' => $jadwal->name,
-                    'start' => $jadwal->start_date,
-                    'end' => $jadwal->end_date,
-                ];
-            })->toArray();
+        $today = CarbonImmutable::today()->startOfMonth()->startOfWeek()->addWeek();
+
+        $squads = Squad::with([
+            'schedules',
+            'schedules.period'
+            ])->whereHas('schedules', function ($q) use ($today) {
+                $q->where('is_accepted', true);
+            });
+
+        if (Auth::user()->role === 'anggota') {
+           $squads ->whereHas('members', function ($q) {
+                $q->where('id', Auth::id());
+            });
         }
 
-        return Schedule::with('period')
-            ->where('user_id', Auth::id())
-            ->get()
-            ->map(function ($schedule) {
-                return [
-                    'id' => $schedule->id,
-                    'title' => $schedule->period->name,
-                    'start' => $schedule->period->start_date,
-                    'end' => $schedule->period->end_date,
-                ];
-            })->toArray();
+        $results = [];
+        foreach ($squads->get() as $squad) {
+            for ($i=1; $i <= 4; $i++) {
+                $total = 7;
+                if ($i === 4) {
+                    $lastWeekStart = $today->copy()->endOfMonth()->startOfWeek();
+                    $total = $today->copy()->endOfMonth()->diffInDays($lastWeekStart) + 1;
+                }
+                for ($j=1; $j <= $total; $j++) {
+                    foreach ($squad->schedules as $schedule) {
+                        if ($schedule->day === $j && $schedule->week == $i) {
+                            $results[] = [
+                                'id' => uniqid('fl'),
+                                'title' => (Auth::user()->role === 'admin' ? $squad->name . ': ' : '') . $schedule->period->name,
+                                'start' => $today->addWeeks($i - 1)->addDays($schedule->day - 1)->setHour($schedule->period->start->format('H')),
+                                'end' => $today->addWeeks($i - 1)->addDays($schedule->day - 1)->setHour($schedule->period->end->format('H')),
+                                'display' => 'block',
+                                'editable' => false,
+                                'resourceEditable' => false,
+                                'backgroundColor' => '#19647E',
+                                'borderColor' => '#19647E'
+                            ];
+                        } else {
+                            if (Auth::user()->role === 'anggota') {
+                                $results[] = [
+                                    'id' => uniqid('fl'),
+                                    'title' => 'Lepas Dinas',
+                                    'start' => $today->addWeeks($i - 1)->addDays($j - 1)->setHour($schedule->period->start->format('H')),
+                                    'end' => $today->addWeeks($i - 1)->addDays($j - 1)->setHour($schedule->period->end->format('H')),
+                                    'display' => 'block',
+                                    'editable' => false,
+                                    'resourceEditable' => false,
+                                    'backgroundColor' => '#e54f6d',
+                                    'borderColor' => '#e54f6d'
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $results;
 
+        return [];
     }
 
     /**

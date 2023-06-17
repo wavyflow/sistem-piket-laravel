@@ -1,5 +1,5 @@
 <x-filament::page>
-    <div class="grid grid-cols-1 filament-widgets-container">
+    {{-- <div class="grid grid-cols-1 filament-widgets-container">
         <div class="space-y-2 rounded-xl bg-white p-2 shadow">
             <div class="space-y-2">
                 <div class="space-y-4 px-4 py-2">
@@ -49,5 +49,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </x-filament::page>
