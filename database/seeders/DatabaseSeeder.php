@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PeriodSeeder::class,
             ScheduleSeeder::class,
+            PresenceSeeder::class,
         ]);
     }
 }

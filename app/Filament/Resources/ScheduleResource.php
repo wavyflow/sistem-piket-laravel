@@ -18,6 +18,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleResource extends Resource
 {
@@ -63,8 +64,13 @@ class ScheduleResource extends Resource
             ->columns([
                 TextColumn::make('squad.name')->label('Nama Regu'),
                 TextColumn::make('period.name')->label('Periode')->alignCenter(),
-                BadgeColumn::make('week')->label('Minggu ke')->color('primary')->alignCenter(),
-                BadgeColumn::make('day')->label('Hari ke')->color('primary')->enum([
+                BadgeColumn::make('week')->label('Minggu')->color('primary')->enum([
+                    1 => 'Pertama',
+                    2 => 'Kedua',
+                    3 => 'Ketiga',
+                    4 => 'Keempat',
+                ])->alignCenter(),
+                BadgeColumn::make('day')->label('Hari')->color('primary')->enum([
                     1 => 'Senin',
                     2 => 'Selasa',
                     3 => 'Rabu',
@@ -119,5 +125,14 @@ class ScheduleResource extends Resource
         }
 
         return parent::getEloquentQuery()->where('is_accepted', false);
+    }
+
+    public static function getModelLabel(): string
+    {
+        if (Auth::user()->role === 'pimpinan') {
+            return 'Approval Jadwal Anggota';
+        }
+
+        return static::$modelLabel;
     }
 }
