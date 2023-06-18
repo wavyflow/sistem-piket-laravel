@@ -46,7 +46,7 @@ class CalendarWidget extends FullCalendarWidget
                         if ($schedule->day === $j && $schedule->week == $i) {
                             $results[] = [
                                 'id' => uniqid('fl'),
-                                'title' => (Auth::user()->role === 'admin' ? $squad->name . ': ' : '') . $schedule->period->name,
+                                'title' => (Auth::user()->role === 'admin' || Auth::user()->role === 'pimpinan' ? $squad->name . ': ' : '') . $schedule->period->name,
                                 'start' => $today->addWeeks($i - 1)->addDays($schedule->day - 1)->setHour($schedule->period->start->format('H')),
                                 'end' => $today->addWeeks($i - 1)->addDays($schedule->day - 1)->setHour($schedule->period->end->format('H')),
                                 'display' => 'block',
