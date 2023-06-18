@@ -16,10 +16,15 @@ class Presence extends Model
      */
     protected $fillable = [
         'keterangan',
-        'user_id'
+        'user_id',
+        'schedule_id',
     ];
 
     function user() {
         return $this->belongsTo(User::class);
+    }
+
+    function schedule() {
+        return $this->belongsTo(Schedule::class);
     }
 }
