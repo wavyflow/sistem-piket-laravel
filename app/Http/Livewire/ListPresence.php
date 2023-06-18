@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Presence;
 use App\Models\Schedule;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -32,20 +33,25 @@ class ListPresence extends Component implements Tables\Contracts\HasTable
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('id'),
+            Tables\Columns\TextColumn::make('id')->label('ID'),
             Tables\Columns\TextColumn::make('keterangan')->label('Keterangan'),
-            Tables\Columns\BadgeColumn::make('created_at')->color('success')
-            // Tables\Columns\TextColumn::make('period.name')->label('Jadwal'),
-            // Tables\Columns\TextColumn::make('period.date')->label('Periode')->alignCenter(),
-            // Tables\Columns\BadgeColumn::make('is_accepted')->color(function ($state) {
-            //     if ($state) {
-            //         return 'success';
-            //     }
-            //     return 'danger';
-            // })->enum([
-            //     0 => 'Non Aktif',
-            //     1 => 'Aktif'
-            // ])->label('Status'),
+            Tables\Columns\BadgeColumn::make('created_at')->dateTime('l, d F Y \P\u\k\u\l H:i')->label('Tanggal Presensi')->color('success')->alignCenter(),
+            BadgeColumn::make('schedule.week')->label('Jadwal Minggu')->color('primary')->enum([
+                1 => 'Pertama',
+                2 => 'Kedua',
+                3 => 'Ketiga',
+                4 => 'Keempat',
+            ])->alignCenter(),
+            BadgeColumn::make('schedule.day')->label('Jadwal Hari')->color('primary')->enum([
+                1 => 'Senin',
+                2 => 'Selasa',
+                3 => 'Rabu',
+                4 => 'Kamis',
+                5 => 'Jumat',
+                6 => 'Sabtu',
+                7 => 'Minggu',
+            ])->alignCenter(),
+            BadgeColumn::make('schedule.period.name')->label('Periode Piket')->color('primary')->alignCenter()
         ];
     }
 
