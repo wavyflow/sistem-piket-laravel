@@ -6,6 +6,7 @@ use App\Models\Presence;
 use App\Models\Schedule;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,18 @@ class ListPresence extends Component implements Tables\Contracts\HasTable
 
     protected function getTableQuery(): Builder
     {
-        return Presence::query()->where('user_id', Auth::id());
+        if (Auth::user()->role === 'anggota') {
+            return Presence::query()->where('user_id', Auth::id());
+        } else {
+            $query =  Presence::query();
+            $month = request()->get('month');
+
+            if ($month) {
+                $query->whereMonth('created_at', $month);
+            }
+
+            return $query;
+        }
     }
 
     protected function getTableEmptyStateIcon(): ?string
@@ -33,7 +45,10 @@ class ListPresence extends Component implements Tables\Contracts\HasTable
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('id')->label('ID'),
+            TextColumn::make('id')->rowIndex(false)->label('No'),
+            TextColumn::make('user.fullname')->label('Nama')->visible(function () {
+                return Auth::user()->role === 'pimpinan';
+            }),
             Tables\Columns\TextColumn::make('keterangan')->label('Keterangan'),
             Tables\Columns\BadgeColumn::make('created_at')->dateTime('l, d F Y \P\u\k\u\l H:i')->label('Tanggal Presensi')->color('success')->alignCenter(),
             BadgeColumn::make('schedule.week')->label('Jadwal Minggu')->color('primary')->enum([
