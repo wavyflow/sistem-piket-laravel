@@ -6,3 +6,10 @@
 .fc-h-event .fc-event-title-container {
     padding: 0.2em .5em;
 }
+
+@tailwind base;
+
+@tailwind components;
+
+
+@tailwind utilities;
