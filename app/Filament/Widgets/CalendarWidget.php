@@ -23,7 +23,7 @@ class CalendarWidget extends FullCalendarWidget
         $squads = Squad::with([
             'schedules',
             'schedules.period'
-            ])->whereHas('schedules', function ($q) use ($today) {
+            ])->whereHas('schedules', function ($q) {
                 $q->where('is_accepted', true);
             });
 
@@ -43,7 +43,7 @@ class CalendarWidget extends FullCalendarWidget
                 }
                 for ($j=1; $j <= $total; $j++) {
                     foreach ($squad->schedules as $schedule) {
-                        if ($schedule->day === $j && $schedule->week == $i) {
+                        if ($schedule->day === $j && $schedule->week == $i && $schedule->is_accepted === true) {
                             $results[] = [
                                 'id' => uniqid('fl'),
                                 'title' => (Auth::user()->role === 'admin' || Auth::user()->role === 'pimpinan' ? $squad->name . ': ' : '') . $schedule->period->name,
