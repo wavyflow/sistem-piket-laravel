@@ -30,15 +30,30 @@ class Presence extends Page
                     $alreadyPresence =  ModelsPresence::where('user_id', Auth::id())
                         ->whereDate('created_at', Carbon::today())->count() > 0;
 
-                    $hasSchedule = Schedule::where('week', $today->weekOfMonth)
+                    $hasSchedule = Schedule::with('period')->where('week', $today->weekOfMonth)
                         ->where('day', $today->dayOfWeekIso)
                         ->where('is_accepted', true)
                         ->whereHas('squad', function ($q) {
                             $q->where('id', Auth::user()->squad_id);
-                        })
-                        ->count() > 0;
+                        })->whereHas('period', function ($q) {
+                            // $now = Carbon::now();
+                            // $q->whereTime('start', '<=', $now);
+                            // $q->whereTime('end', '>', $now);
+                        })->first();
 
-                    return $alreadyPresence || !$hasSchedule;
+                    $isExpired = false;
+
+                    if ($hasSchedule) {
+                        $now = Carbon::now();
+                        $hour = $now->hour;
+                        $period = $hasSchedule->period;
+                        $start = $period->start->hour;
+                        $end = $period->end->hour;
+
+                        $isExpired = !($hour >= $start && $end < $hour);
+                    }
+
+                    return $alreadyPresence || $hasSchedule || $isExpired;
                 })
                 ->label('Presensi')
                 ->action(function (array $data): void {
