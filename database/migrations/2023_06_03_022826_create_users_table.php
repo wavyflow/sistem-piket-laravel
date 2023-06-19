@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('rank')->nullable();
             $table->string('position')->nullable();
             $table->string('role')->default('anggota');
-            $table->foreignId('squad_id')->nullable()->constrained();
+            $table->foreignId('squad_id')->nullable()->constrained()->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

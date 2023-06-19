@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('presences', function (Blueprint $table) {
             $table->id();
             $table->text('keterangan');
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('schedule_id')->constrained();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('schedule_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
