@@ -13,3 +13,7 @@
 
 
 @tailwind utilities;
+
+.filament-main-footer {
+    display: none;
+}
