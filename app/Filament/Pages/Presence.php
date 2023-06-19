@@ -30,7 +30,7 @@ class Presence extends Page
                     $alreadyPresence =  ModelsPresence::where('user_id', Auth::id())
                         ->whereDate('created_at', Carbon::today())->count() > 0;
 
-                    $hasSchedule = Schedule::where('week', $today->weekNumberInMonth)
+                    $hasSchedule = Schedule::where('week', $today->weekOfMonth)
                         ->where('day', $today->dayOfWeekIso)
                         ->where('is_accepted', true)
                         ->whereHas('squad', function ($q) {
@@ -44,7 +44,7 @@ class Presence extends Page
                 ->action(function (array $data): void {
                     $today = Carbon::today();
                     $data['user_id'] = Auth::id();
-                    $data['schedule_id'] = Schedule::where('week', $today->weekNumberInMonth)
+                    $data['schedule_id'] = Schedule::where('week', $today->weekOfMonth)
                     ->where('day', $today->dayOfWeekIso)
                     ->where('is_accepted', true)
                     ->whereHas('squad', function ($q) {
