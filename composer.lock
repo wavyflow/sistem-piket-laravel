@@ -4112,16 +4112,16 @@
         },
         {
             "name": "saade/filament-fullcalendar",
-            "version": "v1.9.0",
+            "version": "v1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saade/filament-fullcalendar.git",
-                "reference": "3142b64918521f76620bb7c0ce20ab6b8c018a80"
+                "reference": "5c9276044665bbcbb1fd944bdbb8ea42a152eb43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saade/filament-fullcalendar/zipball/3142b64918521f76620bb7c0ce20ab6b8c018a80",
-                "reference": "3142b64918521f76620bb7c0ce20ab6b8c018a80",
+                "url": "https://api.github.com/repos/saade/filament-fullcalendar/zipball/5c9276044665bbcbb1fd944bdbb8ea42a152eb43",
+                "reference": "5c9276044665bbcbb1fd944bdbb8ea42a152eb43",
                 "shasum": ""
             },
             "require": {
@@ -4178,7 +4178,7 @@
             ],
             "support": {
                 "issues": "https://github.com/saade/filament-fullcalendar/issues",
-                "source": "https://github.com/saade/filament-fullcalendar/tree/v1.9.0"
+                "source": "https://github.com/saade/filament-fullcalendar/tree/v1.9.1"
             },
             "funding": [
                 {
@@ -4186,7 +4186,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-05T18:58:53+00:00"
+            "time": "2023-07-06T21:52:48+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
